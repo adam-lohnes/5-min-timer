@@ -1,0 +1,97 @@
+<html>
+  <style>
+    body {
+      background-color: #222;
+      color: lightgreen;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition-duration: 1000ms;
+    }
+
+    #presentation {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #timer {
+      font-size: 100px;
+    }
+
+    #start {
+      background-color: #222;
+      color: lightgreen;
+      font-size: 30px;
+      border: 3px solid lightgreen;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .one-minute-warning {
+      background-color: #DDD;
+      color: darkred;
+    }
+
+    .done {
+      background-color: darkred;
+      color: #DDD;
+    }
+
+    #start:disabled {
+      background-color: #AAA;
+      color: #666;
+      border-color: #666;
+    }
+  </style>
+
+  <div id="presentation">
+    <div id="timer">
+      <span id="minutes">5</span>:<span id="seconds">00</span>
+    </div>
+    <button id="start" onclick="startTimer()">Start</button>
+  </div>
+
+  <script>
+    let minutes = 5;
+    let seconds = 0;
+
+    let minutesDisplay = document.querySelector('#minutes');
+    let secondsDisplay = document.querySelector('#seconds');
+    let startButton = document.querySelector('#start');
+
+    let countdownInterval;
+
+    const startTimer = () => {
+      countdownInterval = setInterval(countdown, 1000);
+      startButton.disabled = true;
+    };
+
+    const countdown = () => {
+      seconds--;
+
+      if ( seconds < 0 ) {
+        minutes--;
+        seconds += 60;
+      }
+
+      minutesDisplay.innerText = minutes;
+
+      if ( seconds >= 10 ) {
+        secondsDisplay.innerText = seconds;
+      } else {
+        secondsDisplay.innerText = '0' + seconds;
+      }
+
+      if ( minutes < 1 ) {
+        document.body.classList.add('one-minute-warning')
+      }
+
+      if ( minutes <= 0 && seconds <= 0 ) {
+        document.body.classList.add('done');
+        clearInterval(countdownInterval);
+      }
+    };
+
+  </script>
+</html>
